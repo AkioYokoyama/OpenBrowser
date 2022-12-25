@@ -9,3 +9,5 @@ edition = "2021"
 sqlx = { version = "0.6.2", features = ["runtime-tokio-rustls", "sqlite", "migrate"] }
 tokio = { version = "1.23.0", features = ["full"] }
 webbrowser = "0.8.2"
+anyhow = "1.0"
+structopt = "0.3"
