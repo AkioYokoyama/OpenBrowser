@@ -4,12 +4,9 @@ use webbrowser;
 pub(crate) async fn lists(pool: &SqlitePool) -> anyhow::Result<()> {
     let recs = sqlx::query!(
         r#"
-SELECT id, name, url
-FROM sites
-ORDER BY id
+            SELECT id, name, url FROM sites ORDER BY id
         "#
-    )
-    .fetch_all(pool)
+    ).fetch_all(pool)
     .await?;
 
     for rec in recs {
@@ -27,11 +24,10 @@ ORDER BY id
 pub(crate) async fn find_by_name(pool: &SqlitePool, name: &str) -> anyhow::Result<()> {
     let rec = sqlx::query!(
         r#"
-SELECT url FROM sites WHERE name = ?
+            SELECT url FROM sites WHERE name = ?
         "#,
         name
-    )
-    .fetch_one(pool)
+    ).fetch_one(pool)
     .await?;
 
     if webbrowser::open(&rec.url).is_err() {
@@ -45,12 +41,11 @@ pub(crate) async fn add(pool: &SqlitePool, name: &str, url: String) -> anyhow::R
     let mut conn = pool.acquire().await?;
     let id = sqlx::query!(
         r#"
-INSERT INTO sites (name, url) VALUES(?, ?)
+            INSERT INTO sites (name, url) VALUES(?, ?)
         "#,
         name,
         url
-    )
-    .execute(&mut conn)
+    ).execute(&mut conn)
     .await?
     .last_insert_rowid();
 
@@ -61,11 +56,10 @@ pub(crate) async fn delete(pool: &SqlitePool, name: &str) -> anyhow::Result<()> 
     let mut conn = pool.acquire().await?;
     let _ = sqlx::query!(
         r#"
-DELETE FROM sites WHERE name = ?
+            DELETE FROM sites WHERE name = ?
         "#,
         name,
-    )
-    .execute(&mut conn)
+    ).execute(&mut conn)
     .await?
     .last_insert_rowid();
 
