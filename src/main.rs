@@ -41,13 +41,7 @@ async fn main() -> anyhow::Result<()> {
                 database::find_by_name(&pool, name).await?;
             }
         }
-        None => {
-            let args: Vec<String> = env::args().collect();
-            let args_iter = args[1..].iter();
-            for name in args_iter {
-                database::find_by_name(&pool, name).await?;
-            }
-        }
+        None => println!("Set arguments."),
     }
 
     Ok(())
