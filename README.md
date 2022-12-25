@@ -8,6 +8,11 @@ Set the database url of SQLite.
 export DATABASE_URL="sqlite:db/sites.db"
 ```
 
+Add sqlx commands.
+```bash
+cargo install sqlx-cli
+```
+
 Create database.
 ```bash
 sqlx database create
