@@ -1,3 +1,4 @@
+use dotenvy::dotenv;
 use std::env;
 use sqlx::sqlite::{SqlitePool};
 use structopt::StructOpt;
@@ -20,6 +21,8 @@ enum Command {
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+    dotenv().expect(".env file not found");
+
     let args = Args::from_args_safe()?;
     let pool = SqlitePool::connect(&env::var("DATABASE_URL")?).await?;
 
