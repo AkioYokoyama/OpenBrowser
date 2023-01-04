@@ -3,11 +3,6 @@ Open the site from the terminal with the registered name.
 
 ## Install
 
-Set the database url of SQLite.
-```bash
-export DATABASE_URL="sqlite:db/sites.db"
-```
-
 Add sqlx commands.
 ```bash
 cargo install sqlx-cli
