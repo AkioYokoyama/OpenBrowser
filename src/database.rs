@@ -11,7 +11,7 @@ pub(crate) async fn lists(pool: &SqlitePool) -> anyhow::Result<()> {
 
     for rec in recs {
         println!(
-            "{} | {} | {}",
+            "{0: <02} | {1: <8} | {2}",
             rec.id,
             rec.name,
             rec.url,
