@@ -42,6 +42,7 @@ async fn main() -> anyhow::Result<()> {
             let args_iter = names[0..].iter();
             for name in args_iter {
                 database::find_by_name(&pool, name).await?;
+                database::increase(&pool, name).await?;
             }
         }
         None => println!("Set arguments."),

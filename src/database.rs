@@ -52,6 +52,19 @@ pub(crate) async fn add(pool: &SqlitePool, name: &str, url: String) -> anyhow::R
     Ok(id)
 }
 
+pub(crate) async fn increase(pool: &SqlitePool, name: &str) -> anyhow::Result<()> {
+    let mut conn = pool.acquire().await?;
+    let _ = sqlx::query!(
+        r#"
+            UPDATE sites SET times = times + 1 WHERE name = ?
+        "#,
+        name
+    ).execute(&mut conn)
+    .await?;
+
+    Ok(())
+}
+
 pub(crate) async fn delete(pool: &SqlitePool, name: &str) -> anyhow::Result<()> {
     let mut conn = pool.acquire().await?;
     let _ = sqlx::query!(
