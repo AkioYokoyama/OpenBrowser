@@ -21,6 +21,21 @@ pub(crate) async fn lists(pool: &SqlitePool) -> anyhow::Result<()> {
     Ok(())
 }
 
+pub(crate) async fn frequency(pool: &SqlitePool) -> anyhow::Result<()> {
+    let records = sqlx::query!(
+        r#"
+            SELECT name, times FROM sites ORDER BY times DESC
+        "#
+    ).fetch_all(pool)
+    .await?;
+
+    for record in records {
+        println!("{0: <8} | {1}", record.name, record.times.unwrap());
+    }
+
+    Ok(())
+}
+
 pub(crate) async fn find_by_name(pool: &SqlitePool, name: &str) -> anyhow::Result<()> {
     let rec = sqlx::query!(
         r#"
