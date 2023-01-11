@@ -17,6 +17,7 @@ enum Command {
     Delete { name: String },
     List,
     Brow { names: Vec<String> },
+    Freq,
 }
 
 #[tokio::main]
@@ -42,7 +43,11 @@ async fn main() -> anyhow::Result<()> {
             let args_iter = names[0..].iter();
             for name in args_iter {
                 database::find_by_name(&pool, name).await?;
+                database::increase(&pool, name).await?;
             }
+        }
+        Some(Command::Freq) => {
+            database::frequency(&pool).await?;
         }
         None => println!("Set arguments."),
     }

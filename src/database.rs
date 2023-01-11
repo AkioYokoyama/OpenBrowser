@@ -21,6 +21,21 @@ pub(crate) async fn lists(pool: &SqlitePool) -> anyhow::Result<()> {
     Ok(())
 }
 
+pub(crate) async fn frequency(pool: &SqlitePool) -> anyhow::Result<()> {
+    let records = sqlx::query!(
+        r#"
+            SELECT name, times FROM sites ORDER BY times DESC
+        "#
+    ).fetch_all(pool)
+    .await?;
+
+    for record in records {
+        println!("{0: <8} | {1}", record.name, record.times.unwrap());
+    }
+
+    Ok(())
+}
+
 pub(crate) async fn find_by_name(pool: &SqlitePool, name: &str) -> anyhow::Result<()> {
     let rec = sqlx::query!(
         r#"
@@ -50,6 +65,19 @@ pub(crate) async fn add(pool: &SqlitePool, name: &str, url: String) -> anyhow::R
     .last_insert_rowid();
 
     Ok(id)
+}
+
+pub(crate) async fn increase(pool: &SqlitePool, name: &str) -> anyhow::Result<()> {
+    let mut conn = pool.acquire().await?;
+    let _ = sqlx::query!(
+        r#"
+            UPDATE sites SET times = times + 1 WHERE name = ?
+        "#,
+        name
+    ).execute(&mut conn)
+    .await?;
+
+    Ok(())
 }
 
 pub(crate) async fn delete(pool: &SqlitePool, name: &str) -> anyhow::Result<()> {
