@@ -20,18 +20,18 @@ sqlx migrate run
 
 Code is built.
 ```bash
-cargo build
+cargo build --release
 ```
 
 ## Usage
 Display list of registered sites.
 ```bash
-cargo run -- list
+./target/release/open_browser list
 ```
 
 Register your site.
 ```bash
-cargo run -- add <name> <url>
+./target/release/open_browser add <name> <url>
 
 ex)
 cargo run -- add github https://github.com/
@@ -39,24 +39,29 @@ cargo run -- add github https://github.com/
 
 Delete a registered site.
 ```bash
-cargo run -- delete <name>
+./target/release/open_browser delete <name>
 
 ex)
-cargo run -- delete github
+./target/release/open_browser delete github
 ```
 
 Open one of the registered sites.
 ```bash
-cargo run -- brow <name>
+./target/release/open_browser <name>
 
 ex)
-cargo run -- brow github
+./target/release/open_browser github
 ```
 
 Open multiple registered sites.
 ```bash
-cargo run -- brow <name1> <name2>
+./target/release/open_browser <name1> <name2>
 
 ex)
-cargo run -- brow github forkwell
+./target/release/open_browser github forkwell
+```
+
+Display the number of times used
+```bash
+./target/release/open_browser freq
 ```
